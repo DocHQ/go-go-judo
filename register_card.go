@@ -40,7 +40,7 @@ func (jp *JudoPay) RegisterCard(rcp RegisterCardModel) (ret RegisterCardResponse
 	}
 
 	request, err := http.NewRequest(http.MethodPost, jp.APIUrl.String(), bytes.NewBuffer(requestBody))
-	request.Header.Set("Authorization", "Basic"+jp.Authorization)
+	jp.SetHeaders(request)
 
 	if err != nil {
 		return ret, err

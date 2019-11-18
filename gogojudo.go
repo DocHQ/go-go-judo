@@ -15,31 +15,26 @@ type JudoPay struct {
 
 // funcction New returns an instacce of the Judopay struct
 func New() *JudoPay {
-	var jp JudoPay
-	jp.HttpClient = &http.Client{}
-
 	api_url, err := url.Parse(os.Getenv("JUDOPAY_URL"))
 
 	if err != nil {
 		panic(err)
 	}
 
-	jp.APIUrl = api_url
-
 	token := os.Getenv("JUDOPAY_TOKEN")
 	secret := os.Getenv("JUDOPAY_SECRET")
 
-	jp.Authorization = base64.StdEncoding.EncodeToString([]byte(token)) + ":" + secret
-
-	return &jp
+	return &JudoPay{
+		&http.Client{},
+		api_url,
+		base64.StdEncoding.EncodeToString([]byte(token)) + ":" + secret,
+	}
 }
 
 func (jp *JudoPay) SetHeaders(req *http.Request) error {
 
 	req.Header.Set("Authorization", "Basic "+jp.Authorization)
-
 	req.Header.Set("API-Version", os.Getenv("JUDO_API_VERSION"))
-
 	req.Header.Set("Content-Type", "application/json")
 
 	return nil
