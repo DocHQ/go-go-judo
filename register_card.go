@@ -26,7 +26,7 @@ type RegisterCardModel struct {
 	// Other Details
 	ClientDetails map[string]interface{}
 	JudoID        string
-	currency      string
+	Currency      string
 }
 
 type RegisterCardResponse struct {
@@ -46,7 +46,7 @@ func (jp *JudoPay) RegisterCard(rcp RegisterCardModel) (ret RegisterCardResponse
 		return ret, err
 	}
 
-	resp, err := jp.httpClient.Do(request)
+	resp, err := jp.HttpClient.Do(request)
 
 	if err != nil {
 		return ret, err

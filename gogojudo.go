@@ -8,7 +8,7 @@ import (
 )
 
 type JudoPay struct {
-	httpClient    *http.Client
+	HttpClient    *http.Client
 	APIUrl        *url.URL
 	Authorization string
 }
@@ -16,7 +16,7 @@ type JudoPay struct {
 // funcction New returns an instacce of the Judopay struct
 func New() *JudoPay {
 	var jp JudoPay
-	jp.httpClient = &http.Client{}
+	jp.HttpClient = &http.Client{}
 
 	api_url, err := url.Parse(os.Getenv("JUDOPAY_URL"))
 

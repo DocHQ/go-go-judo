@@ -29,7 +29,7 @@ func (jp *JudoPay) CheckCard(rcp RegisterCardModel) (ret CheckCardResponse, err 
 		return ret, err
 	}
 
-	resp, err := jp.httpClient.Do(request)
+	resp, err := jp.HttpClient.Do(request)
 
 	if err != nil {
 		return ret, err
