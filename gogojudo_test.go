@@ -1,23 +1,28 @@
 package gogojudo
 
 import (
+	"strconv"
 	"testing"
+	"time"
+
+	"github.com/kylelemons/godebug/pretty"
 )
 
-func TestNew(t *testing.T) {
-	var jp *JudoPay
+var JP *JudoPay
 
-	if jp == New() {
+func TestNew(t *testing.T) {
+	JP = New()
+
+	if JP == New() {
 		t.Errorf("Created object is not alike to base struct.")
 	}
 
 	t.Logf("New Passed.")
-
 }
 
 func TestCheckCard(t *testing.T) {
-	var jp *JudoPay = New()
-
+	t.Log("Test skipped")
+	return
 	var testConditions = RegisterCardModel{
 		CV2:               "452",
 		CardNumber:        "4976000000003436",
@@ -26,7 +31,7 @@ func TestCheckCard(t *testing.T) {
 		ExpiryDate:        "12/20",
 	}
 
-	_, err := jp.CheckCard(testConditions)
+	_, err := JP.CheckCard(testConditions)
 
 	if err != nil {
 		t.Errorf("CheckCard failed, error: " + err.Error())
@@ -34,4 +39,30 @@ func TestCheckCard(t *testing.T) {
 	}
 
 	t.Logf("CheckCard Passed")
+}
+
+func TestPayments(t *testing.T) {
+	ti := time.Now()
+
+	var testPayment = CardPaymentModel{
+		CV2:               "452",
+		CardNumber:        "4976000000003436",
+		ConsumerReference: "0",
+		PaymentReference:  strconv.FormatInt(ti.Unix(), 10),
+		ExpiryDate:        "12/20",
+
+		Amount: 0.01,
+	}
+
+	res, err := JP.Payments(testPayment)
+
+	if err != nil {
+		t.Error("Payment failed, error: " + err.Error())
+		return
+	}
+
+	pretty.Print(res)
+
+	t.Logf("Payment Passed, Receipt ID: " + res.ReceiptID)
+
 }
