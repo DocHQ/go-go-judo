@@ -1,9 +1,15 @@
 package gogojudo
 
 type JudoError struct {
-	Message  string
-	Code     int
-	Category int
+	Message  string `json:"message"`
+	Code     int    `json:"code"`
+	Category int    `json:"category"`
+
+	Details []struct {
+		Code      int    `json:"code"`
+		FieldName string `json:"fieldName"`
+		Message   string `json:"message"`
+	} `json:"details"`
 }
 
 func (je *JudoError) GetError() error {

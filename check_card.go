@@ -41,13 +41,14 @@ func (jp *JudoPay) CheckCard(rcp RegisterCardModel) (ret CheckCardResponse, err 
 		var jerror = &JudoError{}
 		json.NewDecoder(resp.Body).Decode(&jerror)
 
+		fmt.Printf("%+v", jerror)
+
 		return ret, jerror.GetError()
 	}
 
 	var response map[string]interface{}
 
 	json.NewDecoder(resp.Body).Decode(&response)
-	json.NewDecoder(resp.Body).Decode(&ret)
 
 	fmt.Printf("\n\n%+v\n", response)
 

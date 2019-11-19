@@ -21,20 +21,21 @@ func New() *JudoPay {
 		panic(err)
 	}
 
-	token := os.Getenv("JUDOPAY_TOKEN")
-	secret := os.Getenv("JUDOPAY_SECRET")
-
 	return &JudoPay{
 		&http.Client{},
 		api_url,
-		base64.StdEncoding.EncodeToString([]byte(token)) + ":" + secret,
+		base64.StdEncoding.EncodeToString(
+			[]byte(
+				os.Getenv("JUDOPAY_TOKEN") + ":" + os.Getenv("JUDOPAY_SECRET"),
+			),
+		),
 	}
 }
 
 func (jp *JudoPay) SetHeaders(req *http.Request) error {
 
 	req.Header.Set("Authorization", "Basic "+jp.Authorization)
-	req.Header.Set("API-Version", os.Getenv("JUDO_API_VERSION"))
+	req.Header.Set("API-Version", os.Getenv("JUDOPAY_API_VERSION"))
 	req.Header.Set("Content-Type", "application/json")
 
 	return nil

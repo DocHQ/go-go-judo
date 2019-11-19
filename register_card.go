@@ -9,24 +9,24 @@ import (
 type RegisterCardModel struct {
 
 	// Required Fields
-	CV2               string // CV2 from the credit card, also known as the card verification value (CVV) or security code. The 3 or 4 digit number on the back of a card
-	CardNumber        string // The unique number printed on a credit card, should be submitted without any whitespace or non-numeric characters
-	ConsumerReference string
-	PaymentReference  string
+	CV2               string `json:"cv2"`        // CV2 from the credit card, also known as the card verification value (CVV) or security code. The 3 or 4 digit number on the back of a card
+	CardNumber        string `json:"cardNumber"` // The unique number printed on a credit card, should be submitted without any whitespace or non-numeric characters
+	ConsumerReference string `json:"yourConsumerReference,omitempty"`
+	PaymentReference  string `json:"yourPaymentReference,omitempty"`
 
 	// Dates
-	ExpiryDate string
-	StartDate  string
+	ExpiryDate string `json:"expiryDate,omitempty"`
+	StartDate  string `json:"startDate,omitempty"`
 
-	IssueNumber int
+	IssueNumber int `json:"issue_number,omitempty"`
 
 	// Address
-	CardAddress struct{}
+	CardAddress string `json:"card_address,omitempty"`
 
 	// Other Details
-	ClientDetails map[string]interface{}
-	JudoID        string
-	Currency      string
+	ClientDetails map[string]interface{} `json:"client_details,omitempty"`
+	JudoID        string                 `json:"judo_id,omitempty"`
+	Currency      string                 `json:"currency,omitempty"`
 }
 
 type RegisterCardResponse struct {

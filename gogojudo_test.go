@@ -1,7 +1,6 @@
 package gogojudo
 
 import (
-	"os"
 	"testing"
 )
 
@@ -20,10 +19,11 @@ func TestCheckCard(t *testing.T) {
 	var jp *JudoPay = New()
 
 	var testConditions = RegisterCardModel{
-		CV2:               "123",
-		CardNumber:        "0000000000000000",
+		CV2:               "452",
+		CardNumber:        "4976000000003436",
 		ConsumerReference: "0",
 		PaymentReference:  "0",
+		ExpiryDate:        "12/20",
 	}
 
 	_, err := jp.CheckCard(testConditions)
