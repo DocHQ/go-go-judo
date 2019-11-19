@@ -1,8 +1,11 @@
-# go-go-judo
+GogoJudo
+======================
+
 Golang library for Judopay
 
+Required env vars
+----------------------
 
-## Required env vars
 | --- | --- | --- |
 | Var | Default | Description |
 | JUDOPAY_URL | https://gw1.judopay-sandbox.com/transactions | The Judopay endpoint url | 
