@@ -4,8 +4,6 @@ import (
 	"strconv"
 	"testing"
 	"time"
-
-	"github.com/kylelemons/godebug/pretty"
 )
 
 var JP *JudoPay
@@ -61,8 +59,5 @@ func TestPayments(t *testing.T) {
 		return
 	}
 
-	pretty.Print(res)
-
 	t.Logf("Payment Passed, Receipt ID: " + res.ReceiptID)
-
 }
