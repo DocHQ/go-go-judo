@@ -1,25 +1,22 @@
 package gogojudo
 
 import (
-	"bytes"
 	"encoding/json"
 	"net/http"
 	"net/url"
 	"path"
 )
 
-func (jp *JudoPay) Payments(rcp CardPaymentModel) (ret PaymentReceiptModel, err error) {
+func (jp *JudoPay) Transaction(receiptID string) (ret PaymentReceiptModel, err error) {
 	var requestURL url.URL = *jp.APIUrl
-	rcp.JudoID = jp.JudopayID
-	requestBody, err := json.Marshal(rcp)
 
 	if err != nil {
 		return ret, err
 	}
 
-	requestURL.Path = path.Join(requestURL.Path, "payments")
+	requestURL.Path = path.Join(requestURL.Path, receiptID)
 
-	request, err := http.NewRequest(http.MethodPost, requestURL.String(), bytes.NewBuffer(requestBody))
+	request, err := http.NewRequest(http.MethodGet, requestURL.String(), nil)
 	jp.SetHeaders(request)
 
 	if err != nil {

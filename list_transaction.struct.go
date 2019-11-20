@@ -4,8 +4,17 @@ import (
 	"time"
 )
 
-type PaymentReceiptModel struct {
+type ListTransactions struct {
+	ResultCount int               `json:"resultCount"`
+	PageSize    int               `json:"pageSize"`
+	Offset      int               `json:"offset"`
+	Results     []TransactionItem `json:"results"`
+	Sort        string            `json:"sort"`
+}
+
+type TransactionItem struct {
 	ReceiptID            string    `json:"receiptId"`
+	OriginalReceiptID    string    `json:"originalReceiptId,omitempty"`
 	YourPaymentReference string    `json:"yourPaymentReference"`
 	Type                 string    `json:"type"`
 	CreatedAt            time.Time `json:"createdAt"`
@@ -14,31 +23,21 @@ type PaymentReceiptModel struct {
 	JudoID               int       `json:"judoId"`
 	MerchantName         string    `json:"merchantName"`
 	AppearsOnStatementAs string    `json:"appearsOnStatementAs"`
-	OriginalAmount       string    `json:"originalAmount"`
+	OriginalAmount       string    `json:"originalAmount,omitempty"`
 	NetAmount            string    `json:"netAmount"`
 	Amount               string    `json:"amount"`
 	Currency             string    `json:"currency"`
 	CardDetails          struct {
 		CardLastfour  string `json:"cardLastfour"`
 		EndDate       string `json:"endDate"`
-		CardToken     string `json:"cardToken"`
 		CardType      int    `json:"cardType"`
-		CardScheme    string `json:"cardScheme"`
-		CardFunding   string `json:"cardFunding"`
-		CardCategory  string `json:"cardCategory"`
 		CardQualifier int    `json:"cardQualifier"`
-		CardCountry   string `json:"cardCountry"`
-		Bank          string `json:"bank"`
 	} `json:"cardDetails"`
 	Consumer struct {
 		ConsumerToken         string `json:"consumerToken"`
 		YourConsumerReference string `json:"yourConsumerReference"`
 	} `json:"consumer"`
-	RiskScore int `json:"riskScore"`
-	Risks     struct {
-		PostCodeCheck      string `json:"postCodeCheck"`
-		MerchantSuggestion string `json:"merchantSuggestion"`
-		MerchantStatistics struct {
-		} `json:"merchantStatistics"`
-	} `json:"risks"`
+	YourPaymentMetaData struct {
+	} `json:"yourPaymentMetaData"`
+	PostCodeCheckResult string `json:"postCodeCheckResult"`
 }

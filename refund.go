@@ -8,7 +8,24 @@ import (
 	"path"
 )
 
-func (jp *JudoPay) Payments(rcp CardPaymentModel) (ret PaymentReceiptModel, err error) {
+type RefundModel struct {
+	// Payment identification
+	ReceiptID            string `json:"receiptId"`
+	YourPaymentReference string `json:"yourPaymentReference"`
+
+	// Information relating to the transaction
+	PaymentMetaData string                 `json:"yourPaymentMetaData"`
+	ClientDetails   map[string]interface{} `json:"clientDetails"`
+
+	// Finantial information
+	Amount   float64 `json:"amount"`
+	Currency string  `json:"currency"`
+
+	// Since it needs to be included
+	JudoID string `json:"judoId"`
+}
+
+func (jp *JudoPay) Refund(rcp RefundModel) (ret PaymentReceiptModel, err error) {
 	var requestURL url.URL = *jp.APIUrl
 	rcp.JudoID = jp.JudopayID
 	requestBody, err := json.Marshal(rcp)
@@ -17,7 +34,7 @@ func (jp *JudoPay) Payments(rcp CardPaymentModel) (ret PaymentReceiptModel, err 
 		return ret, err
 	}
 
-	requestURL.Path = path.Join(requestURL.Path, "payments")
+	requestURL.Path = path.Join(requestURL.Path, "refunds")
 
 	request, err := http.NewRequest(http.MethodPost, requestURL.String(), bytes.NewBuffer(requestBody))
 	jp.SetHeaders(request)

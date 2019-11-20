@@ -4,6 +4,12 @@ import (
 	"errors"
 )
 
+// When listing transactions, here are the sort orders
+var (
+	TimeAscending  = "time-ascending"
+	TimeDescending = "time-descending"
+)
+
 // Card ID's
 var CardIDs = map[int]string{
 	0:  "Unknown",

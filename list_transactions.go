@@ -1,25 +1,27 @@
 package gogojudo
 
 import (
-	"bytes"
 	"encoding/json"
 	"net/http"
 	"net/url"
-	"path"
+	"strconv"
 )
 
-func (jp *JudoPay) Payments(rcp CardPaymentModel) (ret PaymentReceiptModel, err error) {
+func (jp *JudoPay) ListTransactions(pageSize int, offset int, sortOrder string) (ret ListTransactions, err error) {
 	var requestURL url.URL = *jp.APIUrl
-	rcp.JudoID = jp.JudopayID
-	requestBody, err := json.Marshal(rcp)
 
 	if err != nil {
 		return ret, err
 	}
 
-	requestURL.Path = path.Join(requestURL.Path, "payments")
+	q := requestURL.Query()
+	q.Set("pageSize", strconv.Itoa(pageSize))
+	q.Set("offset", strconv.Itoa(offset))
+	q.Set("sort", sortOrder)
 
-	request, err := http.NewRequest(http.MethodPost, requestURL.String(), bytes.NewBuffer(requestBody))
+	requestURL.RawQuery = q.Encode()
+
+	request, err := http.NewRequest(http.MethodGet, requestURL.String(), nil)
 	jp.SetHeaders(request)
 
 	if err != nil {

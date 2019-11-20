@@ -1,6 +1,7 @@
 package gogojudo
 
 import (
+	"math/rand"
 	"strconv"
 	"testing"
 	"time"
@@ -18,46 +19,95 @@ func TestNew(t *testing.T) {
 	t.Logf("New Passed.")
 }
 
-func TestCheckCard(t *testing.T) {
-	t.Log("Test skipped")
-	return
-	var testConditions = RegisterCardModel{
-		CV2:               "452",
-		CardNumber:        "4976000000003436",
-		ConsumerReference: "0",
-		PaymentReference:  "0",
-		ExpiryDate:        "12/20",
-	}
-
-	_, err := JP.CheckCard(testConditions)
-
-	if err != nil {
-		t.Errorf("CheckCard failed, error: " + err.Error())
-		return
-	}
-
-	t.Logf("CheckCard Passed")
-}
-
 func TestPayments(t *testing.T) {
-	ti := time.Now()
+	// Using the current unit nanosecond as a rand seed since
+	// rand.Intn() uses the same default seed so you get duplicated
+	// in sequestial test runs
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1)
 
 	var testPayment = CardPaymentModel{
-		CV2:               "452",
-		CardNumber:        "4976000000003436",
-		ConsumerReference: "0",
-		PaymentReference:  strconv.FormatInt(ti.Unix(), 10),
-		ExpiryDate:        "12/20",
+		CV2:                  "452",
+		CardNumber:           "4976000000003436",
+		ConsumerReference:    "0",
+		YourPaymentReference: strconv.Itoa(r1.Intn(10000)),
+		ExpiryDate:           "12/20",
 
-		Amount: 0.01,
+		Amount: 1,
 	}
 
-	res, err := JP.Payments(testPayment)
+	payment, err := JP.Payments(testPayment)
 
 	if err != nil {
 		t.Error("Payment failed, error: " + err.Error())
 		return
 	}
 
-	t.Logf("Payment Passed, Receipt ID: " + res.ReceiptID)
+	t.Logf("Payment Passed, Receipt ID: " + payment.ReceiptID)
+
+	// Get transaction test
+	t.Run("Get", func(t *testing.T) {
+		res, err := JP.Transaction(payment.ReceiptID)
+
+		if err != nil {
+			t.Errorf("Failed, error: " + err.Error())
+			return
+		}
+
+		if res.ReceiptID != "" {
+			t.Log("Pass, receipt ID: " + res.ReceiptID)
+		}
+
+	})
+
+	// Refund half the amount
+	t.Run("Partial Refund", func(t *testing.T) {
+		res, err := JP.Refund(RefundModel{
+			ReceiptID:            payment.ReceiptID,
+			YourPaymentReference: strconv.Itoa(r1.Intn(10000)),
+			Amount:               0.50,
+		})
+
+		if err != nil {
+			t.Errorf("Failed, error: " + err.Error())
+			return
+		}
+
+		if res.ReceiptID != "" {
+			t.Log("Pass, receipt ID: " + res.ReceiptID)
+		}
+
+	})
+
+	// Refund the remaining amount for a full refund
+	t.Run("Finish Refund", func(t *testing.T) {
+		res, err := JP.Refund(RefundModel{
+			ReceiptID:            payment.ReceiptID,
+			YourPaymentReference: strconv.Itoa(r1.Intn(10000)),
+			Amount:               0.50,
+		})
+
+		if err != nil {
+			t.Errorf("Failed, error: " + err.Error())
+			return
+		}
+
+		if res.ReceiptID != "" {
+			t.Log("Pass, receipt ID: " + res.ReceiptID)
+		}
+
+	})
+
+}
+
+func TestTransactions(t *testing.T) {
+
+	res, err := JP.ListTransactions(10, 0, TimeAscending)
+
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	t.Logf("Pass: %v Transactions", res.ResultCount)
 }

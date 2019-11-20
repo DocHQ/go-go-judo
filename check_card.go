@@ -9,8 +9,7 @@ import (
 	"path"
 )
 
-type CheckCardResponse struct {
-}
+type CheckCardResponse struct{}
 
 func (jp *JudoPay) CheckCard(rcp RegisterCardModel) (ret CheckCardResponse, err error) {
 	var requestURL *url.URL = jp.APIUrl

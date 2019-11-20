@@ -10,9 +10,9 @@ type CardPaymentModel struct {
 	StartDate  string `json:"startDate,omitempty"`
 
 	// Reference numbers
-	ConsumerReference string `json:"yourConsumerReference,omitempty"`
-	PaymentReference  string `json:"yourPaymentReference,omitempty"`
-	PaymentMetaData   []byte `json:"yourPaymentMetaData,omitempty"`
+	ConsumerReference    string `json:"yourConsumerReference,omitempty"`
+	YourPaymentReference string `json:"yourPaymentReference,omitempty"`
+	PaymentMetaData      []byte `json:"yourPaymentMetaData,omitempty"`
 
 	// Payment details
 	Amount                  float64 `json:"amount,omitempty"`
