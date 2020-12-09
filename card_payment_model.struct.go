@@ -19,6 +19,7 @@ type CardPaymentModel struct {
 	Currency                string  `json:"currency,omitempty"`
 	InitialRecurringPayment bool    `json:"initialRecurringPayment,omitempty"`
 	RecurringPayment        bool    `json:"recurringPayment,omitempty"`
+	RecurringPaymentType    string  `json:"recurringPaymentType,omitempty"`
 
 	// Other reference information
 	IssueNumber         int    `json:"issueNumber,omitempty"`
