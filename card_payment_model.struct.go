@@ -6,6 +6,7 @@ type CardPaymentModel struct {
 	// Required card details
 	CV2        string `json:"cv2"`
 	CardNumber string `json:"cardNumber"`
+	CardToken  string `json:"cardToken"`
 	ExpiryDate string `json:"expiryDate,omitempty"`
 	StartDate  string `json:"startDate,omitempty"`
 
