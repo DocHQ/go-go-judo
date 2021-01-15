@@ -4,11 +4,12 @@ package gogojudo
 // submit a payment request
 type CardPaymentModel struct {
 	// Required card details
-	CV2        string `json:"cv2"`
-	CardNumber string `json:"cardNumber"`
-	CardToken  string `json:"cardToken"`
-	ExpiryDate string `json:"expiryDate,omitempty"`
-	StartDate  string `json:"startDate,omitempty"`
+	CV2         string `json:"cv2,omitempty"`
+	CardNumber  string `json:"cardNumber,omitempty"`
+	CardToken   string `json:"cardToken,omitempty"`
+	OneUseToken string `json:"oneUseToken,omitempty"`
+	ExpiryDate  string `json:"expiryDate,omitempty"`
+	StartDate   string `json:"startDate,omitempty"`
 
 	// Reference numbers
 	ConsumerReference    string `json:"yourConsumerReference,omitempty"`
