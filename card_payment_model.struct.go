@@ -41,4 +41,12 @@ type CardPaymentModel struct {
 
 	// Merchant JudoID
 	JudoID string `json:"judoId,omitempty"`
+
+	// 3D Secure
+	Result  string `json:"result,omitempty"`
+	Message string `json:"message,omitempty"`
+	AcsURL  string `json:"acsUrl,omitempty"`
+	MD      string `json:"md,omitempty"`
+	PaReq   string `json:"paReq,omitempty"`
+	TermURL string `json:"termUrl,omitempty"`
 }
