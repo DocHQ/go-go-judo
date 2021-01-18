@@ -40,5 +40,5 @@ type CardPaymentModel struct {
 	ClientDetails  map[string]interface{} `json:"clientDetails,omitempty"`
 
 	// Merchant JudoID
-	JudoID string `json:"judoId,omitempty"
+	JudoID string `json:"judoId,omitempty"`
 }
