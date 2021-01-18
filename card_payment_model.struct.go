@@ -40,13 +40,5 @@ type CardPaymentModel struct {
 	ClientDetails  map[string]interface{} `json:"clientDetails,omitempty"`
 
 	// Merchant JudoID
-	JudoID string `json:"judoId,omitempty"`
-
-	// 3D Secure
-	Result  string `json:"result,omitempty"`
-	Message string `json:"message,omitempty"`
-	AcsURL  string `json:"acsUrl,omitempty"`
-	MD      string `json:"md,omitempty"`
-	PaReq   string `json:"paReq,omitempty"`
-	TermURL string `json:"termUrl,omitempty"`
+	JudoID string `json:"judoId,omitempty"
 }
